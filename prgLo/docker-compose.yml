@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  forum-service:
+    build:
+      context: ./forum-service
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"
+    environment:
+      - GRPC_PORT=50051
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=forum
+      - POSTGRES_SSLMODE=disable
+    depends_on:
+      - postgres
+    networks:
+      - forum-network
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=forum
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - forum-network
+
+volumes:
+  postgres-data:
+
+networks:
+  forum-network:
+    driver: bridge 

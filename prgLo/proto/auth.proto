@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "github.com/yourusername/forum/proto/auth";
+
+service AuthService {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+}
+
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message RegisterResponse {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string role = 4;
+  string created_at = 5;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message ValidateTokenResponse {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string role = 4;
+  string created_at = 5;
+} 
